@@ -20,11 +20,13 @@
   },
   "homepage": "https://github.com/nypl-registry/serialization-agents",
   "dependencies": {
+    "async": "^1.5.2",
     "cli-color": "^1.1.0",
     "highland": "^2.7.1",
     "nypl-registry-utils-database": "nypl-registry/utils-database",
     "nypl-registry-utils-lexicon": "nypl-registry/utils-lexicon",
-    "nypl-registry-utils-normalize": "nypl-registry/utils-normalize"
+    "nypl-registry-utils-normalize": "nypl-registry/utils-normalize",
+    "request": "^2.69.0"
   },
   "devDependencies": {
     "mocha": "^2.4.5",
