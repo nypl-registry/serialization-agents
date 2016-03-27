@@ -26,7 +26,8 @@
     "nypl-registry-utils-database": "nypl-registry/utils-database",
     "nypl-registry-utils-lexicon": "nypl-registry/utils-lexicon",
     "nypl-registry-utils-normalize": "nypl-registry/utils-normalize",
-    "request": "^2.69.0"
+    "request": "^2.69.0",
+    "viaf-wrapper": "^0.1.4"
   },
   "devDependencies": {
     "mocha": "^2.4.5",
