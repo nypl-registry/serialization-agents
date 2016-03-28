@@ -14,3 +14,5 @@ Methods specific to looking up/building agent model from shadowcat `'sc:agents'`
 `shadowcatSerializeViafAgents` - Builds/merges agents in shadowcat that were mapped to a VIAF identifier.	
 
 `removeViafFromShadowcatAgent` - If a VIAF id is not valid (deleted cluster, not lcnaf useInstead) we will set the 'sc:agents'.viaf to false so it can be processed in the uncontrolled workflow.
+
+`shadowcatSerializeNonViafAgents` - Builds/merges agents in shadowcat that were not mapped to a VIAF id. This process runs after the VIAF to allow matching of alt forms to controlled terms already in the agents collection.	
