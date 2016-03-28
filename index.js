@@ -42,6 +42,13 @@ function SerializeAgents () {
    * @param  {function} cb - Nothing returned
    */
   this.mmsSerializeContainerAgents = require(`${__dirname}/lib/mms_serialize_containers_agents`)
+
+  /**
+   * A cluster script the spawns workers to build registry agents from agents in mms Items
+   *
+   * @param  {function} cb - Nothing returned
+   */
+  this.mmsSerializeItemsAgents = require(`${__dirname}/lib/mms_serialize_items_agents`)
 }
 
 module.exports = exports = new SerializeAgents()
