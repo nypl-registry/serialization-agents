@@ -21,6 +21,13 @@ function SerializeAgents () {
    * @param  {function} cb - Nothing returned
    */
   this.archivesSerializeCollectionAgents = require(`${__dirname}/lib/archives_serialize_collections_agents`)
+
+  /**
+   * A cluster script the spawns workers to build registry agents from agents in archives components
+   *
+   * @param  {function} cb - Nothing returned
+   */
+  this.archivesSerializeComponentsAgents = require(`${__dirname}/lib/archives_serialize_components_agents`)
 }
 
 module.exports = exports = new SerializeAgents()

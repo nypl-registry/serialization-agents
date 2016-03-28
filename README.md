@@ -23,3 +23,6 @@ Methods specific to looking up/building agent model from archives `'agents'` fie
 
 ####lib/archives_serialize_collections_agents (cluster)
 `archivesSerializeCollectionAgents` - Creates agents in registry ingest for agents at the archival collection level. (should run 3rd)
+
+####lib/archives_serialize_components_agents (cluster)
+`archivesSerializeCollectionAgents` - Creates agents in registry ingest for agents at the archival components level. (should run 4th)
