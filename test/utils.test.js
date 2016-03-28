@@ -6,7 +6,8 @@ var should = require('should') // eslint-disable-line
 var utils = require('../lib/utils.js')
 var shadowcatUtils = require('../lib/utils_shadowcat.js')
 var archivesUtils = require('../lib/utils_archives.js')
-var mmssUtils = require('../lib/utils_mms.js')
+var mmsUtils = require('../lib/utils_mms.js')
+var tmsUtils = require('../lib/utils_tms.js')
 
 describe('utils lib/utils.js', function () {
   it('return a range given min/max/count', function () {
@@ -273,7 +274,7 @@ describe('utils_mms lib/utils_mms.js', function () {
       }
     }
 
-    var r = mmssUtils.buildAgentFromMmsAgent(data)
+    var r = mmsUtils.buildAgentFromMmsAgent(data)
     r.viaf.indexOf('9096637').should.above(-1)
     r.type.should.equal('personal')
     r.lcId.should.equal('n95078597')
@@ -308,5 +309,78 @@ describe('utils_mms lib/utils_mms.js', function () {
     r.death.should.equal(false)
     r.fast.length.should.equal(0)
     r.nameControlled.should.equal('Katsukawa, Shunchô (fl. 1783-1821)')
+  })
+})
+
+describe('utils_tms lib/utils_tms.js', function () {
+  it('Create a new agent when there is VIAF data and no existing agent data', function () {
+    var data = { id: 1700,
+      nameAlpha: 'Wehrli, A. G.',
+      nameLast: 'Wehrli',
+      nameFirst: 'A. G.',
+      nameDisplay: 'A. G. Wehrli',
+      dateStart: 1900,
+      dateEnd: 1919,
+      nationality: 'Swiss',
+      role: 'photographer',
+      picid: '29570',
+      ulan: '500066483',
+      viaf: { _id: '96139673',
+        viaf: [ '96139673' ],
+        sourceCount: 1,
+        type: 'Personal',
+        hasLc: false,
+        hasDbn: false,
+        lcId: false,
+        gettyId: '500066483',
+        wikidataId: false,
+        lcTerm: false,
+        dnbTerm: false,
+        viafTerm: 'Wehrli, A. G. (Swiss photographer, active early 20th century)',
+        birth: '1870',
+        death: '1960',
+        dbpediaId: false,
+      normalized: [ 'wehrli a g swiss photographer active early 20th century' ] },
+      checkNames: [ 'Wehrli, A. G., 1900-1919',
+        'Wehrli, A. G., 1900-',
+        'Wehrli, A. G.',
+        'A. G. Wehrli' ],
+      viafOg: '96139673',
+      agent: false,
+    source: { source: 'tmsObjects', id: 95 } }
+
+    var r = tmsUtils.buildAgentFromTmsAgent(data)
+    r.viaf.indexOf('96139673').should.above(-1)
+    r.type.should.equal('personal')
+    r.lcId.should.equal(false)
+    r.death.should.equal('1960')
+    r.nameControlled.should.equal('Wehrli, A. G. (Swiss photographer, active early 20th century)')
+  })
+  it('Create a new agent when there is no VIAF data and no existing agent data', function () {
+    var data = { id: 13485,
+      nameAlpha: 'Lincoln, Abraham President',
+      nameLast: 'Lincoln',
+      nameFirst: 'Abraham',
+      nameDisplay: 'President Abraham Lincoln',
+      dateStart: 1809,
+      dateEnd: 1865,
+      nationality: 'American',
+      role: 'subject',
+      checkNames: [ 'Lincoln, Abraham President, 1809-1865',
+        'Lincoln, Abraham President, 1809-',
+        'Lincoln, Abraham President',
+        'President Abraham Lincoln' ],
+      viafOg: false,
+      viaf: false,
+      agent: false,
+    source: { source: 'tmsObjects', id: 611 } }
+
+    var r = tmsUtils.buildAgentFromTmsAgent(data)
+    r.viaf.search('noViaf').should.above(-1)
+    r.type.should.equal('personal')
+    r.lcId.should.equal(false)
+    r.death.should.equal(1865)
+    r.fast.length.should.equal(0)
+    r.nameControlled.should.equal('Lincoln, Abraham President, 1809-1865')
   })
 })
