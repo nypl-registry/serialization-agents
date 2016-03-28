@@ -33,3 +33,5 @@ Methods specific to looking up/building agent model from MMS `'agents'` field
 ####lib/mms_serialize_collections_agents (cluster)
 `mmsSerializeCollectionsAgents` - Creates agents in registry ingest for agents found in MMS collections. (should run 5th)
 
+####lib/mms_serialize_containers_agents (cluster)
+`mmsSerializeCollectionsAgents` - Creates agents in registry ingest for agents found in MMS containers. (should run 6th)
