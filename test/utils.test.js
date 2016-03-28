@@ -6,6 +6,7 @@ var should = require('should') // eslint-disable-line
 var utils = require('../lib/utils.js')
 var shadowcatUtils = require('../lib/utils_shadowcat.js')
 var archivesUtils = require('../lib/utils_archives.js')
+var mmssUtils = require('../lib/utils_mms.js')
 
 describe('utils lib/utils.js', function () {
   it('return a range given min/max/count', function () {
@@ -223,5 +224,89 @@ describe('utils_archives lib/utils_archives.js', function () {
     r.death.should.equal(false)
     r.fast.length.should.equal(0)
     r.nameControlled.should.equal('New York (N.Y.). City Planning Commision')
+  })
+})
+
+describe('utils_mms lib/utils_mms.js', function () {
+  it('Create a new agent when there is VIAF data and no existing agent data', function () {
+    var data = {
+      'namePart': 'Zawidzka-Manteuffel, Wanda, 1906-1994',
+      'type': 'personal',
+      'authority': 'naf',
+      'valueURI': 'http://id.loc.gov/authorities/names/n95078597',
+      'usage': false,
+      'role': [
+        'http://id.loc.gov/vocabulary/relators/ill'
+      ],
+      'viaf': {
+        '_id': '9096637',
+        'viaf': [
+          '9096637'
+        ],
+        'sourceCount': 7,
+        'type': 'Personal',
+        'hasLc': true,
+        'hasDbn': true,
+        'lcId': 'n95078597',
+        'gettyId': false,
+        'wikidataId': 'Q7967152',
+        'lcTerm': 'Zawidzka-Manteuffel, Wanda, 1906-1994',
+        'dnbTerm': 'Zawidzka-Manteuffel, Wanda, 1906-1994',
+        'viafTerm': 'Zawidzka, Wanda, 1906-1994',
+        'birth': '1906-02-07',
+        'death': '1994-05-04',
+        'dbpediaId': 'Wanda_Zawidzka-Manteuffel',
+        'normalized': [
+          'zawidzka manteuffel wanda 1906 1994',
+          'zawidzka wanda 1906 1994'
+        ],
+        'fast': [
+          359929
+        ]
+      },
+      'viafOg': '9096637',
+      'lcId': 'n95078597',
+      'agent': false,
+      'source': {
+        'source': 'mmsCollections',
+        'id': 27418
+      }
+    }
+
+    var r = mmssUtils.buildAgentFromMmsAgent(data)
+    r.viaf.indexOf('9096637').should.above(-1)
+    r.type.should.equal('personal')
+    r.lcId.should.equal('n95078597')
+    r.death.should.equal('1994-05-04')
+    r.fast[0].should.equal(359929)
+    r.nameControlled.should.equal('Zawidzka-Manteuffel, Wanda, 1906-1994')
+  })
+  it('Create a new agent when there is no VIAF data and no existing agent data', function () {
+    var data = {
+      'namePart': 'Katsukawa, Shunchô (fl. 1783-1821)',
+      'type': 'personal',
+      'authority': 'naf',
+      'valueURI': false,
+      'usage': 'primary',
+      'role': [
+        'http://id.loc.gov/vocabulary/relators/art'
+      ],
+      'viaf': false,
+      'viafOg': false,
+      'lcId': false,
+      'agent': false,
+      'source': {
+        'source': 'mmsCollections',
+        'id': 27391
+      }
+    }
+
+    var r = archivesUtils.buildAgentFromArchiveAgent(data)
+    r.viaf.search('noViaf').should.above(-1)
+    r.type.should.equal('personal')
+    r.lcId.should.equal(false)
+    r.death.should.equal(false)
+    r.fast.length.should.equal(0)
+    r.nameControlled.should.equal('Katsukawa, Shunchô (fl. 1783-1821)')
   })
 })

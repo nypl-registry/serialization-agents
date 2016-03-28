@@ -14,6 +14,9 @@ Methods specific to looking up/building agent model from shadowcat `'sc:agents'`
 ####lib/utils_archives
 Methods specific to looking up/building agent model from archives `'agents'` field
 
+####lib/utils_mms
+Methods specific to looking up/building agent model from MMS `'agents'` field
+
 
 ####lib/shadowcat_serialize_viaf_agents (cluster)
 `shadowcatSerializeViafAgents` - Builds/merges agents in shadowcat that were mapped to a VIAF identifier.	(should run 1st)
@@ -26,3 +29,7 @@ Methods specific to looking up/building agent model from archives `'agents'` fie
 
 ####lib/archives_serialize_components_agents (cluster)
 `archivesSerializeCollectionAgents` - Creates agents in registry ingest for agents at the archival components level. (should run 4th)
+
+####lib/mms_serialize_collections_agents (cluster)
+`mmsSerializeCollectionsAgents` - Creates agents in registry ingest for agents found in MMS collections. (should run 5th)
+
