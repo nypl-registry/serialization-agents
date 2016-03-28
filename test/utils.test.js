@@ -4,7 +4,8 @@
 var assert = require('assert') // eslint-disable-line
 var should = require('should') // eslint-disable-line
 var utils = require('../lib/utils.js')
-var shadowcatutils = require('../lib/utils_shadowcat.js')
+var shadowcatUtils = require('../lib/utils_shadowcat.js')
+var archivesUtils = require('../lib/utils_archives.js')
 
 describe('utils lib/utils.js', function () {
   it('return a range given min/max/count', function () {
@@ -61,7 +62,7 @@ describe('utils_shadowcat lib/utils_shadowcat.js', function () {
       agent: false,
     source: 10000347 }
 
-    var r = shadowcatutils.mergeScAgentViafRegistryAgent(plato)
+    var r = shadowcatUtils.mergeScAgentViafRegistryAgent(plato)
 
     r.viaf.indexOf('288392106').should.above(-1)
     r.type.should.equal('personal')
@@ -150,7 +151,77 @@ describe('utils_shadowcat lib/utils_shadowcat.js', function () {
       source: 10000347
     }
 
-    var r = shadowcatutils.mergeScAgentViafRegistryAgent(plato)
+    var r = shadowcatUtils.mergeScAgentViafRegistryAgent(plato)
     r.nameNormalized.indexOf('coooooool old guy').should.above(-1)
+  })
+})
+
+describe('utils_archives lib/utils_archives.js', function () {
+  it('Create a new agent when there is VIAF data and no existing agent data', function () {
+    var data = {
+      'id': 6287,
+      'namePart': 'Andrews, Ann, 1890-1986',
+      'type': 'persname',
+      'authority': 'naf',
+      'role': 'originator',
+      'valueURI': 'http://viaf.org/viaf/53706985',
+      'viaf': {
+        '_id': '53706985',
+        'viaf': [
+          '53706985'
+        ],
+        'sourceCount': 1,
+        'type': 'Personal',
+        'hasLc': true,
+        'hasDbn': true,
+        'lcId': 'no89014249',
+        'gettyId': false,
+        'wikidataId': false,
+        'lcTerm': 'Andrews, Ann, 1890-1986',
+        'dnbTerm': false,
+        'viafTerm': 'Andrews, Ann, 1890-1986',
+        'birth': '1890-10-13',
+        'death': '1986-01-23',
+        'dbpediaId': false,
+        'normalized': [
+          'andrews ann 1890 1986'
+        ],
+        'fast': [
+          1492506,
+          1727006
+        ]
+      },
+      'viafOg': '53706985',
+      'agent': false
+    }
+
+    var r = archivesUtils.buildAgentFromArchiveAgent(data)
+    r.viaf.indexOf('53706985').should.above(-1)
+    r.type.should.equal('personal')
+    r.lcId.should.equal('no89014249')
+    r.death.should.equal('1986-01-23')
+    r.fast[0].should.equal(1492506)
+    r.nameControlled.should.equal('Andrews, Ann, 1890-1986')
+  })
+  it('Create a new agent when there is no VIAF data and no existing agent data', function () {
+    var data = {
+      'id': 4259,
+      'namePart': 'New York (N.Y.). City Planning Commision',
+      'type': 'corpname',
+      'authority': false,
+      'role': 'contributor',
+      'valueURI': false,
+      'viaf': false,
+      'viafOg': false,
+      'agent': false
+    }
+
+    var r = archivesUtils.buildAgentFromArchiveAgent(data)
+    r.viaf.search('noViaf').should.above(-1)
+    r.type.should.equal('corpname')
+    r.lcId.should.equal(false)
+    r.death.should.equal(false)
+    r.fast.length.should.equal(0)
+    r.nameControlled.should.equal('New York (N.Y.). City Planning Commision')
   })
 })
