@@ -56,6 +56,13 @@ function SerializeAgents () {
    * @param  {function} cb - Nothing returned
    */
   this.tmsSerializeObjectsAgents = require(`${__dirname}/lib/tms_serialize_objects_agents`)
+
+  /**
+   * A cluster script the spawns workers to assign sequential numeric ids to all the agents
+   *
+   * @param  {function} cb - Nothing returned
+   */
+  this.enumerateAgents = require(`${__dirname}/lib/enumerate_agents`)
 }
 
 module.exports = exports = new SerializeAgents()

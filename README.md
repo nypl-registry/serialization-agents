@@ -41,3 +41,6 @@ Methods specific to looking up/building agent model from MMS `'agents'` field
 
 ####lib/tms_serialize_items_agents (cluster)
 `tmsSerializeObjectsAgents` - Creates agents in registry ingest for items found in TMS objects. (should run 8th)
+
+####lib/enumerate_agents (cluster)
+`enumerateAgents` - Loops through all the agents in the lookup collection and populates a sequential registry ID. (should run last) This is where agent persistance will need to be built in.
