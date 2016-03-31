@@ -63,6 +63,13 @@ function SerializeAgents () {
    * @param  {function} cb - Nothing returned
    */
   this.enumerateAgents = require(`${__dirname}/lib/enumerate_agents`)
+
+  /**
+   * Prepare the agents able and do anything we need to do before we start the serialization
+   *
+   * @param  {function} cb - Nothing returned
+   */
+  this.prepareAgents = require(`${__dirname}/lib/prepare`)
 }
 
 module.exports = exports = new SerializeAgents()
